@@ -1,5 +1,5 @@
-MCU = attiny85
-F_CPU = 16500000ul
+MCU = attiny13
+F_CPU = 9600000ul
 
 TARGET=main
 OBJS=$(TARGET).o
@@ -47,4 +47,8 @@ pprogram: clean all program
 aall: clean all
 
 install:
-	micronucleus $(TARGET).hex
+	# micronucleus $(TARGET).hex
+	avrdude -p ${MCU} -c usbasp -U flash:w:$(TARGET).hex
+	
+fuse:
+	avrdude -p ${MCU} -c usbasp -U lfuse:w:0x7a:m -U hfuse:w:0xff:m 
