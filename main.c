@@ -18,6 +18,9 @@ int main (void)
     wdt_enable(WDTO_120MS);
     
 
+    // 2.733 - 4.30 - 5.07
+    const int32_t min_pot = 1024 * (2.8 / 5.07);
+    const int32_t max_pot = 1024 * (4.30 / 5.07);
 
     while(1){
         wdt_reset();
@@ -26,11 +29,9 @@ int main (void)
         while(ADCSRA & (1<<ADSC)); // wait for result
         int32_t val = ADC;
 
-        val = (val*1023)/943-(81840/943);
-
-        val = val/4;
-
+        val = (255UL * (val - min_pot)) / (max_pot - min_pot) ;
         if(val < 0) val = 0;
+        if(val > 255) val = 255;
         
         OCR0B = 255 - val;
         if(OCR0B == 0){
