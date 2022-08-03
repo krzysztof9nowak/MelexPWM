@@ -51,4 +51,4 @@ install:
 	avrdude -p ${MCU} -c usbasp -U flash:w:$(TARGET).hex
 	
 fuse:
-	avrdude -p ${MCU} -c usbasp -U lfuse:w:0x7a:m -U hfuse:w:0xff:m 
+	avrdude -p ${MCU} -c usbasp -U lfuse:w:0x5a:m -U hfuse:w:0xf9:m 
